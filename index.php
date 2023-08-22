@@ -39,10 +39,34 @@
             <div class="container mt-5">
 
                 <h1 class="text-center mt-2">
+                    <i class="fas fa-hotel"></i>
                     Elenco Hotels
                 </h1>
 
-                <table class="table">
+                <form action="" method="GET">
+
+                    <div class="mb-3">
+
+                        <label for="filter_parking" class="form-label"> 
+                            Scegli tra le seguenti opzioni:
+                        </label>
+
+                        <select name="filter_parking" id="filter_parking" class="form-select">
+                            <option value="all"> Tutti </option>
+                            <option value="true"> Con Parcheggio </option>
+                            <option value="false"> Senza Parcheggio </option>
+                        </select>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-filter"></i>
+                        Filtra
+                    </button>
+
+                </form>
+
+                <table class="table mt-3">
 
                     <thead>
                         <tr>
@@ -98,16 +122,26 @@
                             ]
                         ];
 
-                        foreach ($hotels as $hotel) : ?>
+                        $filterValue = isset($_GET['filter_parking']) ? $_GET['filter_parking'] : 'all';
+
+                        if ($filterValue !== 'all') {
+                            $filteredHotels = array_filter($hotels, function ($hotel) use ($filterValue) {
+                                return $hotel['parking'] == ($filterValue === 'true');
+                            });
+                        } else {
+                            $filteredHotels = $hotels;
+                        }
+
+                        foreach ($filteredHotels as $hotel) : ?>
 
                             <tr>
 
                                 <td><?php echo $hotel['name']; ?> </td>
                                 <td><?php echo $hotel['description']; ?> </td>
-                                <td><?php echo $hotel['parking'] ? 'Sì' : 'No'; ?> </td>
-                                <td><?php echo $hotel['vote']; ?> </td>
-                                <td><?php echo $hotel['distance_to_center']; ?> km </td>
-                                
+                                <td><?php echo $hotel['parking'] ? '<i class="fas fa-parking"></i>' : '<i class="fas fa-times-circle"></i>'; ?> </td>
+                                <td><?php echo $hotel['vote']; ?> <i class="fas fa-star"></i> </td>
+                                <td><?php echo $hotel['distance_to_center']; ?> km <i class="fas fa-map-marker-alt"></i> </td>
+
                             </tr>
 
                         <?php endforeach; ?>
