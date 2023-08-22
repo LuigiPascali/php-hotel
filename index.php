@@ -79,6 +79,8 @@
                 $filterValueParking = isset($_GET['filter_parking']) ? $_GET['filter_parking'] : 'all';
                 $filterValueRating = isset($_GET['filter_rating']) ? intval($_GET['filter_rating']) : 0;
 
+                // BONUS 1:
+
                 if ($filterValueParking !== 'all') {
                     $filteredHotels = array_filter($hotels, function ($hotel) use ($filterValueParking) {
                         return $hotel['parking'] == ($filterValueParking === 'true');
@@ -86,6 +88,8 @@
                 } else {
                     $filteredHotels = $hotels;
                 }
+
+                // BONUS 2:
 
                 if ($filterValueRating > 0) {
                     $filteredHotels = array_filter($filteredHotels, function ($hotel) use ($filterValueRating) {
@@ -106,6 +110,8 @@
 
                     <div class="mb-3">
 
+                        <!-- BONUS 1: -->
+
                         <label for="filter_parking" class="form-label">
                             <i class="fa-solid fa-bars"></i>
                             Scegli tra le seguenti opzioni:
@@ -120,6 +126,8 @@
                     </div>
 
                     <div class="mb-3">
+
+                        <!-- BONUS 2: -->
 
                         <label for="filter_rating" class="form-label">
                             <i class="fas fa-star"></i> 
@@ -146,8 +154,8 @@
                             <tr>
                                 <th scope="col">Nome</th>
                                 <th scope="col" class="d-none d-sm-table-cell">Descrizione</th>
-                                <th scope="col" class="d-none d-sm-table-cell" >Parcheggio</th>
-                                <th scope="col" class="d-none d-sm-table-cell" >Voto</th>
+                                <th scope="col" class="d-none d-sm-table-cell">Parcheggio</th>
+                                <th scope="col" class="d-none d-sm-table-cell">Voto</th>
                                 <th scope="col">Distanza dal centro</th>
                             </tr>
 
