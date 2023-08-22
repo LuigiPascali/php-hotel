@@ -9,8 +9,15 @@
 :root {
     /* Color Palette */
     
-    --light_color:#FFFFFF ;
-    --dark_color: #0A0A0A ;
+    --light_color:#f8f9fa;
+    --dark_color: #0A0A0A;
+    --label_color: #6c757d;
+    --primary_color: #002E2C;
+    --subprimary_color: #008060;
+    --secondary_color: #343a40;
+    --tertiary_color: #007bff;
+    --fourth_color: #0056b3;
 
 }
 
+body {background-color: var(--light_color);}

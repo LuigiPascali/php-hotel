@@ -36,122 +36,145 @@
         <!-- ! Main Start -->
         <main>
 
-            <div class="container mt-5">
+            <?php
 
-                <h1 class="text-center mt-2">
-                    <i class="fas fa-hotel"></i>
-                    Elenco Hotels
+                $hotels = [
+                    [
+                        'name' => 'Hotel Belvedere',
+                        'description' => 'Hotel in collina con vista panoramica',
+                        'parking' => true,
+                        'vote' => 4,
+                        'distance_to_center' => 10.4
+                    ],
+                    [
+                        'name' => 'Hotel Futuro',
+                        'description' => 'Hotel dal design moderno a due passi dal centro',
+                        'parking' => true,
+                        'vote' => 2,
+                        'distance_to_center' => 2
+                    ],
+                    [
+                        'name' => 'Hotel Rivamare',
+                        'description' => 'Hotel comodo per chi vuole alloggiare vicino al mare',
+                        'parking' => false,
+                        'vote' => 1,
+                        'distance_to_center' => 1
+                    ],
+                    [
+                        'name' => 'Hotel Bellavista',
+                        'description' => 'Lussuoso hotel vista mare con tutti i confort',
+                        'parking' => false,
+                        'vote' => 5,
+                        'distance_to_center' => 5.5
+                    ],
+                    [
+                        'name' => 'Hotel Milano',
+                        'description' => 'Hotel in periferia ideale per chi vuole godere il relax della campagna',
+                        'parking' => true,
+                        'vote' => 2,
+                        'distance_to_center' => 50
+                    ]
+                ];
+
+                $filterValueParking = isset($_GET['filter_parking']) ? $_GET['filter_parking'] : 'all';
+                $filterValueRating = isset($_GET['filter_rating']) ? intval($_GET['filter_rating']) : 0;
+
+                if ($filterValueParking !== 'all') {
+                    $filteredHotels = array_filter($hotels, function ($hotel) use ($filterValueParking) {
+                        return $hotel['parking'] == ($filterValueParking === 'true');
+                    });
+                } else {
+                    $filteredHotels = $hotels;
+                }
+
+                if ($filterValueRating > 0) {
+                    $filteredHotels = array_filter($filteredHotels, function ($hotel) use ($filterValueRating) {
+                        return $hotel['vote'] >= $filterValueRating;
+                    });
+                }
+
+            ?>
+
+            <div class="container mt-5 mb-5">
+
+                <h1>
+                    <i class="fas fa-hotel"></i> 
+                    Elenco degli hotel
                 </h1>
-
+                
                 <form action="" method="GET">
 
                     <div class="mb-3">
 
-                        <label for="filter_parking" class="form-label"> 
+                        <label for="filter_parking" class="form-label">
+                            <i class="fa-solid fa-bars"></i>
                             Scegli tra le seguenti opzioni:
                         </label>
 
                         <select name="filter_parking" id="filter_parking" class="form-select">
-                            <option value="all"> Tutti </option>
-                            <option value="true"> Con Parcheggio </option>
-                            <option value="false"> Senza Parcheggio </option>
+                            <option value="all">Tutti</option>
+                            <option value="true">Con parcheggio</option>
+                            <option value="false">Senza parcheggio</option>
                         </select>
 
                     </div>
 
+                    <div class="mb-3">
+
+                        <label for="filter_rating" class="form-label">
+                            <i class="fas fa-star"></i> 
+                            Filtra per voto (almeno)
+                        </label>
+
+                        <input type="number" name="filter_rating" id="filter_rating" class="form-control" min="1" max="5">
+
+                    </div>
+
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-filter"></i>
-                        Filtra
+                        <i class="fas fa-filter"></i> 
+                        Filtra i risultati
                     </button>
 
                 </form>
 
-                <table class="table mt-3">
+                <div class="table-responsive">
 
-                    <thead>
-                        <tr>
+                    <table class="table mt-3">
 
-                            <th scope="col"> Nome </th>
-                            <th scope="col"> Descrizione </th>
-                            <th scope="col"> Parcheggio </th>
-                            <th scope="col"> Voto </th>
-                            <th scope="col"> Distanza dal Centro </th>
-
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        <?php
-
-                        $hotels = [
-                            [
-                                'name' => 'Hotel Belvedere',
-                                'description' => 'Hotel Belvedere Descrizione',
-                                'parking' => true,
-                                'vote' => 4,
-                                'distance_to_center' => 10.4
-                            ],
-                            [
-                                'name' => 'Hotel Futuro',
-                                'description' => 'Hotel Futuro Descrizione',
-                                'parking' => true,
-                                'vote' => 2,
-                                'distance_to_center' => 2
-                            ],
-                            [
-                                'name' => 'Hotel Rivamare',
-                                'description' => 'Hotel Rivamare Descrizione',
-                                'parking' => false,
-                                'vote' => 1,
-                                'distance_to_center' => 1
-                            ],
-                            [
-                                'name' => 'Hotel Bellavista',
-                                'description' => 'Hotel Bellavista Descrizione',
-                                'parking' => false,
-                                'vote' => 5,
-                                'distance_to_center' => 5.5
-                            ],
-                            [
-                                'name' => 'Hotel Milano',
-                                'description' => 'Hotel Milano Descrizione',
-                                'parking' => true,
-                                'vote' => 2,
-                                'distance_to_center' => 50
-                            ]
-                        ];
-
-                        $filterValue = isset($_GET['filter_parking']) ? $_GET['filter_parking'] : 'all';
-
-                        if ($filterValue !== 'all') {
-                            $filteredHotels = array_filter($hotels, function ($hotel) use ($filterValue) {
-                                return $hotel['parking'] == ($filterValue === 'true');
-                            });
-                        } else {
-                            $filteredHotels = $hotels;
-                        }
-
-                        foreach ($filteredHotels as $hotel) : ?>
+                        <thead>
 
                             <tr>
-
-                                <td><?php echo $hotel['name']; ?> </td>
-                                <td><?php echo $hotel['description']; ?> </td>
-                                <td><?php echo $hotel['parking'] ? '<i class="fas fa-parking"></i>' : '<i class="fas fa-times-circle"></i>'; ?> </td>
-                                <td><?php echo $hotel['vote']; ?> <i class="fas fa-star"></i> </td>
-                                <td><?php echo $hotel['distance_to_center']; ?> km <i class="fas fa-map-marker-alt"></i> </td>
-
+                                <th scope="col">Nome</th>
+                                <th scope="col" class="d-none d-sm-table-cell">Descrizione</th>
+                                <th scope="col" class="d-none d-sm-table-cell" >Parcheggio</th>
+                                <th scope="col" class="d-none d-sm-table-cell" >Voto</th>
+                                <th scope="col">Distanza dal centro</th>
                             </tr>
 
-                        <?php endforeach; ?>
+                        </thead>
 
-                    </tbody>
+                        <tbody>
 
-                </table>
+                            <?php foreach ($filteredHotels as $hotel) : ?>
+
+                                <tr>
+                                    <td><?php echo $hotel['name']; ?></td>
+                                    <td class="d-none d-sm-table-cell"><?php echo $hotel['description']; ?></td>
+                                    <td class="d-none d-sm-table-cell"><?php echo $hotel['parking'] ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>
+                                    <td class="d-none d-sm-table-cell"><?php echo $hotel['vote']; ?> <i class="fas fa-star"></i></td>
+                                    <td><?php echo $hotel['distance_to_center']; ?> km <i class="fas fa-map-marker-alt"></i></td>
+                                </tr>
+
+                            <?php endforeach; ?>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
 
             </div>
-                 
+
         </main>
 
         <!-- ! BOOTSTRAP JS -->

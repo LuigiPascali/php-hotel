@@ -1,3 +1,25 @@
 /* 
     MAIN
 */
+
+h1 {color: var(--secondary_color);font-size: 2.5rem;margin-bottom: 20px;}
+
+table {width: 100%;border-collapse: collapse;border-radius: 5px;overflow: hidden;box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);}
+
+th {background-color: var(--secondary_color);color: white;font-weight: bold;}
+
+th, td {vertical-align: middle;padding: 10px;text-align: center;}
+
+th i, td i {margin-left: 5px;}
+
+.container {background: linear-gradient(135deg, var(--primary_color) 0%, var(--subprimary_color) 100%);padding: 20px;border-radius: 10px;box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);}
+
+.form-label {color: var(--label_color);}
+
+.btn-primary {background-color: var(--tertiary_color);border-color: var(--tertiary_color);}
+
+.btn-primary:hover {background-color: var(--fourth_color);border-color: var(--fourth_color);}
+
+.form-select, .form-control {width: 100%;padding: 8px;border-radius: 5px;border: 1px solid #ced4da;transition: border-color 0.2s;}
+
+.form-select:focus, .form-control:focus {border-color: var(--tertiary_color);}
